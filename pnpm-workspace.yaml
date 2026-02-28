@@ -1,0 +1,36 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+catalog:
+  # lang & build
+  typescript: "latest"
+  tsdown: "latest"
+  tsx: "latest"
+  vite: "latest"
+
+  # react
+  react: "latest"
+  react-dom: "latest"
+  react-router: "latest"
+  zustand: "latest"
+  i18next: "latest"
+  react-i18next: "latest"
+  "@vitejs/plugin-react": "latest"
+  "@types/react": "latest"
+  "@types/react-dom": "latest"
+
+  # style
+  tailwindcss: "latest"
+  "@tailwindcss/vite": "latest"
+  shadcn-ui: "latest"
+
+  # backend
+  hono: "latest"
+  "@hono/node-server": "latest"
+  postgres: "latest"
+  mqtt: "latest"
+  aedes: "latest"
+
+onlyBuiltDependencies:
+  - "esbuild"

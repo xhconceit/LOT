@@ -28,4 +28,3 @@ Topic 不承载业务语义，仅用于订阅过滤与来源标记（见 `docs/d
 ## 参考
 
 - `docs/data-spec.md`
-

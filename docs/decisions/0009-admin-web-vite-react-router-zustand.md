@@ -30,4 +30,3 @@
 ## 参考
 
 - `docs/architecture.md`
-

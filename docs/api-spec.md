@@ -215,4 +215,3 @@
 ### 7.3 GET `/api/v1/devices/:deviceId/commands`（可选）
 
 按设备列出命令历史（支持 `status/type/from/to` 过滤）。
-

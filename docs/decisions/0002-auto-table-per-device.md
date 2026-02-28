@@ -27,4 +27,3 @@ Schema 演进策略默认使用 **固定字段 + payload_raw(JSONB)**，避免�
 
 - 单大表按 `deviceId` 分区（Partition）
 - 时序数据库（如 Timescale/InfluxDB）
-

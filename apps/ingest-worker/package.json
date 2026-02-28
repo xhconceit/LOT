@@ -1,0 +1,24 @@
+{
+  "name": "@lot/ingest-worker",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "LOT 入库工作器",
+  "scripts": {
+    "build": "tsdown src/index.ts --format esm",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@lot/application": "workspace:*",
+    "@lot/domain": "workspace:*",
+    "@lot/shared": "workspace:*",
+    "mqtt": "catalog:",
+    "postgres": "catalog:"
+  },
+  "devDependencies": {
+    "tsdown": "catalog:",
+    "tsx": "catalog:",
+    "typescript": "catalog:"
+  }
+}

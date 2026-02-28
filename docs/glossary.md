@@ -55,4 +55,3 @@
 - 控制规范：`docs/control-spec.md`
 - 架构约束：`docs/architecture.md`
 - ADR：`docs/decisions/`
-

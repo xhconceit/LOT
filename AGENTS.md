@@ -1,4 +1,3 @@
-
 # 存储库指南
 
 - 仓库： https://github.com/xhconceit/lot
@@ -8,7 +7,6 @@
 - 源码：`apps/`（`apps/admin-web` Web 管理台、`apps/mqtt-broker` Aedes broker、`apps/ingest-worker` 入库、`apps/api-service` HTTP API），`packages/`（`packages/shared` schema 校验/类型/工具等，`packages/domain`、`packages/application` 为内层）。
 - 测试：`*.test.ts`.
 - 文档：`docs/`
-
 
 ## 构建、测试和开发命令
 
@@ -22,6 +20,14 @@
 - 语言：TypeScript (ESM)。建议使用严格类型；避免使用 any 。
 - 使用：Oxlint 和 Oxfmt 进行格式化/代码检查；提交前运行 `pnpm lint` 与 `pnpm fmt`。
 - 永远不要添加 `@ts-nocheck` ，也不要禁用 `no-explicit-any` ；修复根本原因，仅在需要时才更新 Oxlint/Oxfmt 配置。
+
+## 国际化（i18n）
+
+- 前端 `admin-web` 使用 `i18next` + `react-i18next`；翻译文件在 `apps/admin-web/src/locales/`（`zh-CN.json` / `en.json`）。
+- **所有用户可见文本必须通过 `t()` 调用**，禁止硬编码中文或英文字符串到组件中。
+- 新增页面/组件时，须同步在 `zh-CN.json` 和 `en.json` 中添加对应翻译 key。
+- 后端校验错误使用 `I18nError`（`{ key, params? }`）类型，前端用 `t(error.key, error.params)` 翻译显示。
+- 详见 `docs/decisions/0012-i18n-react-i18next.md`。
 
 ## 文档链接
 

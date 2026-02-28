@@ -1,0 +1,23 @@
+{
+  "name": "@lot/application",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "LOT 应用层",
+  "exports": {
+    ".": {
+      "import": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsdown src/index.ts --format esm --dts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@lot/domain": "workspace:*"
+  },
+  "devDependencies": {
+    "tsdown": "catalog:",
+    "typescript": "catalog:"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "experimentalSortImports": {
+    "newlineBetween": false
+  },
+  "experimentalSortPackageJson": {
+    "sortScripts": true
+  },
+  "ignorePatterns": ["dist", "node_modules", "pnpm-lock.yaml", "assets/"]
+}

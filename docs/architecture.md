@@ -97,4 +97,3 @@ Devices → mqtt-broker(Aedes) → ingest-worker → PostgreSQL
 - 自动建表策略（锁/DDL 并发、命名、索引）
 - Schema 演进（JSONB vs 自动增列）
 - API 形态（REST vs RPC、分页/聚合策略）
-

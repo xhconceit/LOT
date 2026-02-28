@@ -27,4 +27,3 @@ Topic **不承载业务语义**：
 ## 参考
 
 - 数据规范：`docs/data-spec.md`
-

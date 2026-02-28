@@ -1,0 +1,25 @@
+{
+  "name": "@lot/api-service",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "LOT HTTP API 服务",
+  "scripts": {
+    "build": "tsdown src/index.ts --format esm",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@hono/node-server": "catalog:",
+    "@lot/application": "workspace:*",
+    "@lot/domain": "workspace:*",
+    "@lot/shared": "workspace:*",
+    "hono": "catalog:",
+    "postgres": "catalog:"
+  },
+  "devDependencies": {
+    "tsdown": "catalog:",
+    "tsx": "catalog:",
+    "typescript": "catalog:"
+  }
+}

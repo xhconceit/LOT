@@ -2,3 +2,27 @@ node_modules
 **/node_modules/
 **/.DS_Store
 .DS_Store
+.pnpm-store
+
+# Build outputs
+dist/
+*.tsbuildinfo
+
+# Turborepo
+.turbo/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Test & coverage
+coverage/
+
+# IDE
+.vscode/
+!.vscode/settings.json
+.idea/
+
+# OS
+Thumbs.db

@@ -141,4 +141,3 @@ telemetry_{deviceId}
 - 建表冲突（并发）
 
 后续在 `docs/decisions/` 中补充决策记录。
-

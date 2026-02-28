@@ -70,4 +70,3 @@ queued → sent → acked → succeeded
 - `POST /devices/:deviceId/commands`：创建命令（返回 `commandId`）
 - `GET /commands/:commandId`：查询命令状态
 - （可选）`GET /devices/:deviceId/commands`：列表与过滤
-

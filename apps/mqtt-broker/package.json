@@ -1,0 +1,20 @@
+{
+  "name": "@lot/mqtt-broker",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "LOT MQTT Broker 服务",
+  "scripts": {
+    "build": "tsdown src/index.ts --format esm",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "aedes": "catalog:"
+  },
+  "devDependencies": {
+    "tsdown": "catalog:",
+    "tsx": "catalog:",
+    "typescript": "catalog:"
+  }
+}

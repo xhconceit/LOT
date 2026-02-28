@@ -29,4 +29,3 @@
 ## 参考
 
 - `docs/control-spec.md`
-

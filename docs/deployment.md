@@ -85,4 +85,3 @@ Compose 内应包含：
 - **密钥管理**：`JWT_SECRET`、数据库密码等通过 Secret 管理，不提交仓库
 - **权限隔离**：数据库账号最小权限；服务间网络隔离
 - **观测**：保留关键审计日志（控制链路尤其重要，见 `docs/auth-spec.md`、`docs/control-spec.md`）
-
