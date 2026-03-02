@@ -2,7 +2,10 @@
 
 本文件描述本项目在本地与生产环境的部署方式（优先 Docker/容器化），并给出服务依赖、端口规划与环境变量清单。
 
-> 说明：当前仓库以文档为主，具体镜像构建与 `docker-compose.yml` 会在 `apps/*` 代码落地后补齐。
+> 说明：开发（dev）阶段 Docker 是**可选**的：
+>
+> - 默认 `pnpm dev` 会先**自动探测本机 5432** 是否已有 PostgreSQL；如果没有，才会尝试用 Compose 启动 `postgres`
+> - 你也可以通过环境变量强制模式：`LOT_DEPS_MODE=local|docker|auto`
 
 ## 1. 服务清单（微服务）
 
