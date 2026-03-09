@@ -40,7 +40,3 @@ export function parsePayload(raw: string): Result<TelemetryPayload, I18nError> {
     type: typeof obj.type === "string" ? obj.type : undefined,
   });
 }
-
-export function add(a: number, b: number): number {
-  return a + b;
-}

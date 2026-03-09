@@ -14,8 +14,10 @@
     "@lot/application": "workspace:*",
     "@lot/domain": "workspace:*",
     "@lot/shared": "workspace:*",
+    "@lot/i18n": "workspace:*",
     "hono": "catalog:",
-    "postgres": "catalog:"
+    "postgres": "catalog:",
+    "@lot/i18n-kit": "workspace:*"
   },
   "devDependencies": {
     "tsdown": "catalog:",

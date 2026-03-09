@@ -1,29 +1,18 @@
-import { serve } from "@hono/node-server";
-import { Hono } from "hono";
-import { cors } from "hono/cors";
+import { ApiServiceConfig } from "./config";
+import { createApp } from "./app";
+import {startServer} from "./server";
 
-import { health } from "./routes/health";
 
-const port = Number(process.env.PORT) || 3000;
-const corsOrigin = process.env.CORS_ORIGIN ?? "http://localhost:5173";
+const app = createApp(ApiServiceConfig);
+const server = startServer(app, ApiServiceConfig);
 
-const app = new Hono();
 
-app.use("*", cors({ origin: corsOrigin }));
 
-const api = new Hono();
-api.route("/health", health);
-
-app.route("/api/v1", api);
-
-serve({ fetch: app.fetch, port }, () => {
-  console.log(`🚀 API Service 已启动: http://localhost:${port}`);
-});
-
-function shutdown() {
-  console.log("⏹️ 正在关闭 API Service...");
+function shutdown(signal: string) {
+  console.log(`⏹️ 正在关闭 API Service... (收到信号: ${signal})`);
+  server.close();
   process.exit(0);
 }
 
-process.on("SIGINT", shutdown);
-process.on("SIGTERM", shutdown);
+process.on("SIGINT", () => shutdown("SIGINT"));
+process.on("SIGTERM", () => shutdown("SIGTERM"));

@@ -1,0 +1,37 @@
+{
+  "app": {
+    "title": "LOT",
+    "description": "IoT Data Collection & Real-time Visualization Dashboard"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "devices": "Devices",
+    "settings": "Settings"
+  },
+  "common": {
+    "loading": "Loading...",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "search": "Search",
+    "reset": "Reset",
+    "actions": "Actions",
+    "status": "Status",
+    "name": "Name",
+    "type": "Type",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At"
+  },
+  "error": {
+    "invalidJson": "Invalid JSON",
+    "payloadMustBeObject": "Payload must be a JSON object",
+    "missingDeviceId": "Missing or empty deviceId",
+    "invalidDeviceId": "Invalid deviceId: {{deviceId}}",
+    "tsMustBeNumber": "ts must be a number (epoch ms)",
+    "networkError": "Network error, please try again later",
+    "unknown": "Unknown error"
+  }
+}

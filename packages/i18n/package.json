@@ -1,0 +1,24 @@
+{
+  "name": "@lot/i18n",
+  "version": "1.0.0",
+  "description": "LOT i18n",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsdown src/index.ts --format esm --dts",
+    "typecheck": "tsc --noEmit",
+    "gen:keys": "node ../../scripts/gen-i18n-keys.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.26.2",
+  "dependencies": {
+    "tsdown": "catalog:",
+    "typescript": "catalog:"
+  }
+}

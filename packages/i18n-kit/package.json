@@ -1,0 +1,29 @@
+{
+  "name": "@lot/i18n-kit",
+  "version": "1.0.0",
+  "description": "LOT i18n kit",
+  "type": "module",
+  "scripts": {
+    "build": "tsdown src/index.ts --format esm --dts",
+    "typecheck": "tsc --noEmit"
+  },
+  "exports": {
+    ".": {"import": "./src/index.ts"},
+    "./hono": {"import": "./src/hono.ts"}
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.26.2",
+  "devDependencies": {
+    "tsdown": "catalog:",
+    "typescript": "catalog:"
+  },
+  "dependencies": {
+    "@lot/i18n": "workspace:*",
+    "@lot/shared": "workspace:*"
+  },
+  "peerDependencies": {
+    "hono": "*"
+  }
+}

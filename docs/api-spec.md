@@ -26,7 +26,7 @@
   "ok": false,
   "error": {
     "code": "VALIDATION_ERROR",
-    "message": "human readable message",
+    "key": "error.unknown",
     "details": {}
   }
 }
