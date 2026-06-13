@@ -6,7 +6,7 @@
 
 - **MQTT 订阅**：可配置 Broker 与订阅 Topic（Topic/Pattern 由后台配置，不硬编码）
 - **Topic 处理**：Topic 不承载语义，不做解析；但必须保留原始 topic 用于追溯（见 `docs/data-spec.md`）
-- **设备识别**：从 payload 的 `deviceId` 确定设备归属（Topic 不承载设备信息）
+- **设备识别**：优先使用 payload 的 `deviceId` 确定设备归属；若缺失则回退 MQTT `clientId`（Topic 不承载设备信息）
 - **设备控制（控制面）**：小程序/APP 通过 HTTP API 下发控制命令，由后端 publish MQTT 到设备并处理回执（见 `docs/control-spec.md`）
 - **入库**：写入 PostgreSQL
 - **设备自动建表**：新设备首次上报自动创建对应存储结构

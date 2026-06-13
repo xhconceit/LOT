@@ -1,66 +1,47 @@
-import { IngestTelemetry } from "@lot/application";
-import mqtt from "mqtt";
+import { config } from "./config";
 import postgres from "postgres";
-
 import { createMqttHandler } from "./adapters/mqtt-handler";
-import { PgDeviceRepository } from "./infra/pg-device-repository";
-import { PgTableProvisioner } from "./infra/pg-table-provisioner";
-import { PgTelemetryRepository } from "./infra/pg-telemetry-repository";
+import { runMigrations } from "./infra/migrations";
+import { buildContainer } from "./composition-root";
+import { createMqttClient } from "./infra/mqtt-client";
+import { TopicSubscription } from "@lot/domain";
 
-const databaseUrl = process.env.DATABASE_URL ?? "postgres://lot:lot_secret@localhost:5432/lot";
-const mqttUrl = process.env.MQTT_URL ?? "mqtt://localhost:1883";
+const init = async () => {
+  const sql = postgres(config.databaseUrl);
+  await runMigrations(sql);
+  const { ingestTelemetry } = buildContainer(sql)
 
-const sql = postgres(databaseUrl);
 
-await sql.unsafe(`
-  CREATE TABLE IF NOT EXISTS devices (
-    device_id      TEXT PRIMARY KEY,
-    first_seen_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
-    last_seen_at   TIMESTAMPTZ NOT NULL DEFAULT now(),
-    table_name     TEXT NOT NULL
-  )
-`);
-console.log("✅ devices 表已就绪");
+  let subscriptions: TopicSubscription[] = [];
 
-const deviceRepo = new PgDeviceRepository(sql);
-const tableProvisioner = new PgTableProvisioner(sql);
-const telemetryRepo = new PgTelemetryRepository(sql);
+  console.log("🔍 加载主题订阅:", subscriptions.map(s => s.pattern).join(", "));
 
-const ingestTelemetry = new IngestTelemetry(deviceRepo, tableProvisioner, telemetryRepo);
-const handler = createMqttHandler(ingestTelemetry);
+  if (subscriptions.length === 0) {
+    console.warn("🔍 没有主题订阅，将不接收任何消息");
+  }
 
-const client = mqtt.connect(mqttUrl);
+  const handler = createMqttHandler(ingestTelemetry, () => subscriptions);
 
-client.on("connect", () => {
-  console.log(`🚀 Ingest Worker 已连接 MQTT: ${mqttUrl}`);
-  client.subscribe("#", (err) => {
-    if (err) {
-      console.error("❌ 订阅失败:", err);
-    } else {
-      console.log("📡 已订阅所有 Topic (#)");
-    }
-  });
-});
 
-client.on("message", (topic, payload) => {
-  handler(topic, payload).catch((err) => {
-    console.error("❌ 处理消息失败:", err);
-  });
-});
 
-client.on("error", (err) => {
-  console.error("❌ MQTT 连接错误:", err);
-});
 
-function shutdown() {
-  console.log("⏹️ 正在关闭 Ingest Worker...");
-  client.end(false, () => {
-    sql.end().then(() => {
-      console.log("✅ Ingest Worker 已关闭");
-      process.exit(0);
-    });
-  });
+  const { shutdown: shutdownMqtt } = createMqttClient({
+    url: config.mqttUrl,
+    onMessage: handler,
+  })
+
+  const shutdown = () => {
+    shutdownMqtt(() => {
+      sql.end().then(() => {
+        console.log("✅ Ingest Worker 已关闭");
+        process.exit(0);
+      });
+    })
+  }
+
+  process.on("SIGINT", shutdown);
+  process.on("SIGTERM", shutdown);
+
 }
 
-process.on("SIGINT", shutdown);
-process.on("SIGTERM", shutdown);
+init()

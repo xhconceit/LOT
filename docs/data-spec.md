@@ -63,11 +63,15 @@ Topic 由用户在后台配置（见 1.4），且**Topic 名称不承载任何�
 
 ### 2.1 设备识别（必须）
 
-由于 Topic 不能确定设备/部件/指标，本项目以 **payload 内的 `deviceId`** 作为设备唯一标识。
+由于 Topic 不能确定设备/部件/指标，本项目按以下优先级确定设备唯一标识：
 
-- **必须**：每条消息 payload 必须包含 `deviceId`
-- **必须**：`deviceId` 建议仅使用 `[a-zA-Z0-9_-]`（避免空格与中文）
-- **必须**：缺少/非法 `deviceId` 的消息不入库，并记录错误日志（含 topic 与原始 payload）
+1. payload 内的 `deviceId`
+2. 发布方 MQTT `clientId`（当 payload 缺失 `deviceId` 时）
+
+- **必须**：若 payload 提供 `deviceId`，则其建议仅使用 `[a-zA-Z0-9_-]`（避免空格与中文）
+- **必须**：若 payload 缺失 `deviceId`，则采集链路必须尝试回退 MQTT `clientId`
+- **必须**：若 payload `deviceId` 与 `clientId` 同时存在且不一致，以 payload `deviceId` 为准，并记录 warning
+- **必须**：若无法得到合法的设备标识（payload `deviceId` 非法，或 payload 与 `clientId` 均缺失/非法），则消息不入库，并记录错误日志（含 topic 与原始 payload）
 
 ### 2.2 基础字段（推荐）
 
@@ -75,14 +79,13 @@ Topic 由用户在后台配置（见 1.4），且**Topic 名称不承载任何�
 
 ```json
 {
-  "deviceId": "dev_001",
   "ts": 1710000000000,
   "data": { "value": 12.34, "unit": "°C" },
   "type": "telemetry"
 }
 ```
 
-- **deviceId**：设备唯一标识（必填）
+- **deviceId**：设备唯一标识（可选；缺失时回退 MQTT `clientId`）
 - **ts**：时间戳（毫秒），缺省时由服务端接收时间补齐
 - **data**：业务数据（对象，字段可演进）
 - **type**：消息类型/用途（例如 `telemetry` / `status` / `event`，可选但推荐）
@@ -97,7 +100,7 @@ Topic 由用户在后台配置（见 1.4），且**Topic 名称不承载任何�
 
 ### 3.1 触发条件（必须）
 
-- **首次观察到**新的 `deviceId`（来自 payload）时触发建表（或注册记录）
+- **首次观察到**新的 `deviceId`（来自 payload `deviceId` 或 MQTT `clientId`）时触发建表（或注册记录）
 
 ### 3.2 表命名规则（建议）
 
@@ -136,7 +139,7 @@ telemetry_{deviceId}
 
 ## 4. 失败与重试策略（占位）
 
-- payload 校验失败（缺少/非法 `deviceId`，或非 JSON）
+- payload 校验失败（无法得到合法设备标识，或非 JSON）
 - 数据库连接失败
 - 建表冲突（并发）
 

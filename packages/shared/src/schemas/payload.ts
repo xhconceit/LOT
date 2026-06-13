@@ -7,7 +7,9 @@ const DEVICE_ID_RE = /^[a-zA-Z0-9_-]+$/;
 export function parsePayload(raw: string): Result<TelemetryPayload, I18nError> {
   let parsed: unknown;
   try {
+    console.log("🔍 解析 Payload:", raw);
     parsed = JSON.parse(raw);
+    console.log("🔍 解析 Payload:", parsed);
   } catch {
     return err({ key: "error.invalidJson" });
   }
@@ -18,12 +20,14 @@ export function parsePayload(raw: string): Result<TelemetryPayload, I18nError> {
 
   const obj = parsed as Record<string, unknown>;
 
-  if (typeof obj.deviceId !== "string" || obj.deviceId.length === 0) {
-    return err({ key: "error.missingDeviceId" });
-  }
-
-  if (!DEVICE_ID_RE.test(obj.deviceId)) {
-    return err({ key: "error.invalidDeviceId", params: { deviceId: obj.deviceId } });
+  if (obj.deviceId !== undefined) {
+    if (typeof obj.deviceId !== "string" || obj.deviceId.length === 0) {
+      return err({ key: "error.invalidDeviceId" });
+    }
+  
+    if (!DEVICE_ID_RE.test(obj.deviceId)) {
+      return err({ key: "error.invalidDeviceId", params: { deviceId: obj.deviceId } });
+    }
   }
 
   if (obj.ts !== undefined && typeof obj.ts !== "number") {
@@ -31,7 +35,7 @@ export function parsePayload(raw: string): Result<TelemetryPayload, I18nError> {
   }
 
   return ok({
-    deviceId: obj.deviceId,
+    deviceId: typeof obj.deviceId === "string" ? obj.deviceId : undefined,
     ts: typeof obj.ts === "number" ? obj.ts : undefined,
     data:
       typeof obj.data === "object" && obj.data !== null

@@ -2,7 +2,7 @@
 
 本文件描述 `api-service`（TypeScript + Hono）对外提供的 HTTP API 契约，供 `admin-web`、小程序/APP 与其他服务对接。
 
-> 约定：**设备归属以 payload 内的 `deviceId` 为准**；**Topic 不承载业务语义**，仅用于订阅过滤与来源标记（见 `docs/data-spec.md`、`docs/control-spec.md`）。
+> 约定：**设备归属优先以 payload 内的 `deviceId` 为准；若缺失则回退 MQTT `clientId`**；**Topic 不承载业务语义**，仅用于订阅过滤与来源标记（见 `docs/data-spec.md`、`docs/control-spec.md`）。
 
 ## 1. 基本约定
 
@@ -136,6 +136,8 @@
 ## 6. 遥测/数据查询
 
 资源：`TelemetryRow`（示例）
+
+> 说明：响应中的 `deviceId` 为服务端解析后的设备标识，优先取 payload `deviceId`，缺失时回退 MQTT `clientId`。
 
 ```json
 {

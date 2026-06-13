@@ -10,7 +10,8 @@
     "start": "node dist/index.js"
   },
   "dependencies": {
-    "aedes": "catalog:"
+    "aedes": "catalog:",
+    "@lot/shared": "workspace:*"
   },
   "devDependencies": {
     "tsdown": "catalog:",

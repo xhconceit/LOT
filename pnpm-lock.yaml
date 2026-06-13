@@ -206,6 +206,9 @@ importers:
 
   apps/mqtt-broker:
     dependencies:
+      '@lot/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
       aedes:
         specifier: 'catalog:'
         version: 1.0.0

@@ -22,7 +22,7 @@
 推荐最小拆分（可独立部署/扩缩容）：
 
 - **`mqtt-broker`**：MQTT Broker（Aedes），负责连接/鉴权/发布订阅（不做业务）
-- **`ingest-worker`**：订阅/接收消息，校验 payload（必须含 `deviceId`），写入 PostgreSQL（含自动建表）
+- **`ingest-worker`**：订阅/接收消息，解析设备标识（优先 `payload.deviceId`，缺失时回退 MQTT `clientId`），写入 PostgreSQL（含自动建表）
 - **`api-service`**：HTTP API（TypeScript + Hono），负责后台配置、设备列表、数据查询与聚合等
 - **`admin-web`**：Web 管理台（Vite + React + React Router + Zustand，使用 shadcn/ui + Tailwind CSS）
 

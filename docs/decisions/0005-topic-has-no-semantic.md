@@ -16,7 +16,7 @@
 ## 决策
 
 - Topic **不承载业务语义**，仅作为订阅过滤与来源标记
-- 业务语义（至少 `deviceId`，以及可选 `type`/`data`）来自 payload
+- 业务语义（至少设备标识，以及可选 `type`/`data`）来自消息上下文：优先取 payload，缺失时可回退 Broker 提供的 MQTT `clientId`
 - 入库必须保留原始 topic
 
 ## 影响

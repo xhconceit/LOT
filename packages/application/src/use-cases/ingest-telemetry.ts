@@ -1,5 +1,4 @@
 import type { DeviceRepository } from "../ports/device-repository";
-import type { TableProvisioner } from "../ports/table-provisioner";
 import type { TelemetryRepository } from "../ports/telemetry-repository";
 
 export interface IngestTelemetryInput {
@@ -10,17 +9,17 @@ export interface IngestTelemetryInput {
   payloadRaw: Record<string, unknown>;
 }
 
+// 遥测使用 case
 export class IngestTelemetry {
   constructor(
     private readonly devices: DeviceRepository,
-    private readonly tables: TableProvisioner,
     private readonly telemetry: TelemetryRepository,
   ) {}
 
+  // 执行遥测使用 case
   async execute(input: IngestTelemetryInput): Promise<void> {
     await this.devices.upsert(input.deviceId);
-    await this.tables.ensureTable(input.deviceId);
-    await this.telemetry.insert(input.deviceId, {
+    await this.telemetry.insert({
       deviceId: input.deviceId,
       ts: input.ts ? new Date(input.ts) : new Date(),
       topic: input.topic,

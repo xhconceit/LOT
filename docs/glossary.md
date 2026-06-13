@@ -17,7 +17,7 @@
 - **Payload**：设备上报的消息体内容。
   - 推荐为 JSON（UTF-8）；是否强制 JSON 以 `docs/data-spec.md` 为准。
 - **deviceId**：设备唯一标识。
-  - 本项目约定：**设备归属以 payload 内的 `deviceId` 为准**，不从 topic 推断（见 `docs/data-spec.md`、ADR-0004）。
+  - 本项目约定：**设备归属优先以 payload 内的 `deviceId` 为准；若缺失则回退 MQTT `clientId`**，不从 topic 推断（见 `docs/data-spec.md`、ADR-0004）。
 - **ts**：事件时间戳（毫秒）。缺省时可由服务端接收时间补齐（具体以实现为准）。
 - **type**：消息类型/用途（例如 `telemetry`/`status`/`event`），用于查询过滤与统计（可选但推荐）。
 - **data**：业务数据对象（字段可演进）。
@@ -38,7 +38,7 @@
 
 - **api-service**：HTTP API 服务（TypeScript + Hono），负责后台配置、查询、下发命令入口、鉴权/授权/审计等。
 - **mqtt-broker**：MQTT Broker 服务（Aedes），负责连接与发布订阅（不承载业务规则）。
-- **ingest-worker**：采集入库服务，消费 MQTT 消息，校验 payload（必须含 `deviceId`），执行自动建表/入库。
+- **ingest-worker**：采集入库服务，消费 MQTT 消息，解析设备标识（优先 `payload.deviceId`，缺失时回退 MQTT `clientId`），执行自动建表/入库。
 - **admin-web**：Web 管理台（Vite + React + React Router + Zustand），只消费 `api-service` 的 HTTP API。
 
 ## 架构术语（Clean Architecture）
